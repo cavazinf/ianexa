@@ -1,0 +1,32 @@
+Para extrair texto de imagens utilizando soluções de reconhecimento óptico de caracteres (OCR), você pode usar bibliotecas populares como Tesseract OCR em Python. Abaixo, apresento um exemplo de código que demonstra como usar o Tesseract para extrair texto de uma imagem.
+Pré-requisitos
+Instale o Tesseract OCR:
+Para Windows, você pode baixar o instalador do Tesseract no GitHub.
+Para macOS, você pode instalar via Homebrew:
+bash
+brew install tesseract
+Para Linux, você pode instalar usando o gerenciador de pacotes:
+bash
+sudo apt-get install tesseract-ocr
+Instale as bibliotecas Python necessárias:
+Você precisará das bibliotecas Pillow para manipulação de imagens e pytesseract para usar o Tesseract com Python. Instale-as usando pip:
+bash
+pip install Pillow pytesseract
+Código para Extrair Texto de Imagens
+Aqui está um exemplo de código que utiliza o Tesseract OCR para extrair texto de uma imagem:
+python
+from PIL import Image
+import pytesseract
+
+# Especifique o caminho do executável do Tesseract se necessário
+# pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'  # Windows
+
+# Carregar a imagem
+imagem = Image.open('caminho/para/sua/imagem.jpg')  # Substitua pelo caminho da sua imagem
+
+# Usar o Tesseract para extrair texto da imagem
+texto_extraido = pytesseract.image_to_string(imagem)
+
+# Exibir o texto extraído
+print("Texto extraído:")
+print(texto_extraido)
