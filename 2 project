@@ -1,0 +1,47 @@
+Passos para Identificar Celebridades com AWS Rekognition
+1. Configuração Inicial
+Crie uma Conta AWS: Se você ainda não tem uma conta, crie uma na AWS.
+Configure um Usuário IAM: Crie um usuário com permissões para usar o Amazon Rekognition e o Amazon S3. As permissões necessárias incluem AmazonRekognitionFullAccess e AmazonS3ReadOnlyAccess.
+2. Preparação da Imagem
+Escolha ou Faça Upload de Imagens: Você pode usar imagens que já possui ou fazer upload de novas imagens para um bucket do Amazon S3.
+3. Usando a API RecognizeCelebrities
+Chamada da API: Utilize a operação RecognizeCelebrities para identificar celebridades em uma imagem. Você pode passar a imagem como bytes ou referenciá-la diretamente de um bucket do S3.
+Exemplo de chamada da API:
+json
+{
+  "Image": {
+    "S3Object": {
+      "Bucket": "nome-do-seu-bucket",
+      "Name": "nome-da-imagem.jpg"
+    }
+  }
+}
+4. Processamento e Resposta
+Recebendo os Resultados: A resposta da operação incluirá uma lista de celebridades reconhecidas, junto com links para informações adicionais (como perfis no IMDB ou Wikidata).
+5. Armazenamento de Dados
+Armazenamento de Informações: O Amazon Rekognition não armazena informações sobre quais celebridades foram detectadas em quais imagens, então você deve armazenar esses dados em seu aplicativo se precisar acessá-los posteriormente.
+Exemplo de Código (Python)
+Aqui está um exemplo básico de como usar o SDK Boto3 do Python para chamar a API RecognizeCelebrities:
+python
+import boto3
+
+# Inicializa o cliente do Rekognition
+rekognition_client = boto3.client('rekognition')
+
+# Chama a operação RecognizeCelebrities
+response = rekognition_client.recognize_celebrities(
+    Image={
+        'S3Object': {
+            'Bucket': 'nome-do-seu-bucket',
+            'Name': 'nome-da-imagem.jpg'
+        }
+    }
+)
+
+# Exibe as celebridades reconhecidas
+for celebrity in response['CelebrityFaces']:
+    print(f"Nome: {celebrity['Name']}, Confiança: {celebrity['MatchConfidence']}")
+Considerações Finais
+Limitações: O serviço é projetado para reconhecer apenas celebridades conhecidas. Para reconhecimento facial de pessoas que não são celebridades, você deve usar outras funcionalidades do Rekognition.
+Uso Responsável: Esteja ciente das implicações éticas e legais ao usar reconhecimento facial e respeite a privacidade das pessoas.
+Com esses passos, você poderá implementar o reconhecimento automático de celebridades em suas aplicações utilizando o AWS Rekognition. Se precisar de mais informações ou ajuda, consulte a documentação oficial.
